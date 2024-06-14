@@ -4,18 +4,19 @@ namespace App\Models;
 
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
-use App\Traits\HasImage;
+use App\Interfaces\HasImage;
+use App\Traits\InteractWithImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
-use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, HasImage
 {
-    use HasFactory, Notifiable, HasImage;
+    use HasFactory, Notifiable, InteractWithImage;
 
     /**
      * The attributes that are mass assignable.
@@ -46,6 +47,8 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    /* INTERFACES */
+
     public function getJWTIdentifier()
     {
         return $this->getKey();
@@ -56,24 +59,20 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function uploadImage(UploadedFile $image, $directory): string
+    public function getImageSize(): array
     {
-        $profile = $this->profile;
-        $fileName = time() . '_profile_' . \Str::slug($profile->name, "_") . "." . $image->getClientOriginalExtension();
-        $path = $directory . '/' . $fileName;
-
-        $image = Image::read($image);
-        $aspectRatio = $image->width() / $image->height();
-
-        if ($aspectRatio == 1) {
-            $image->scale(300);
-        } else {
-            $image->crop(300, 300, position: "center");
-        }
-
-        $image->save(public_path($path));
-        return $profile->update(["profile_photo" => asset($path)]);
+        return [
+            "width" => 300,
+            "height" => 300,
+            "ratio" => 1,
+        ];
     }
+
+    public function uploadImageCallback(string $asset): bool
+    {
+        return $this->profile->update(["profile_photo" => $asset]);
+    }
+
 
     /* RELATIONSHIP */
 
@@ -93,7 +92,7 @@ class User extends Authenticatable implements JWTSubject
         ?PaymentMethod $preferredPayment = null,
         ?string        $profileLink = null,
         Role           $role = Role::User,
-    )
+    ): User
     {
         $user = User::create([
             "email" => $email,
@@ -110,5 +109,15 @@ class User extends Authenticatable implements JWTSubject
             "preferred_payment" => $preferredPayment,
         ]);
         return $user;
+    }
+
+    public function uploadProfile(UploadedFile $image): bool
+    {
+        $userProfile = $this->profile;
+        if ($userProfile->profile_photo) {
+            Storage::delete($userProfile->profile_photo);
+        }
+
+        return $this->uploadImage($image, "profile", "profile_" . str($userProfile->name)->slug("_"));
     }
 }

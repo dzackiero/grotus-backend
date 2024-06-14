@@ -37,10 +37,9 @@ class UserController extends Controller
 
         if ($request->hasFile("profile_photo")) {
             $profile = $request->file("profile_photo");
-            $user->uploadImage($profile, "profile", 300);
+            $user->uploadProfile($profile);
         }
 
         return $user->refresh();
-
     }
 }
