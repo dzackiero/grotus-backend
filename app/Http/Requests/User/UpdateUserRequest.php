@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use App\Enums\PaymentMethod;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
-/* @mixin \App\Models\User */
-class StoreUserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +25,12 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name" => ["required", "string"],
-            "email" => ["required", "email"],
-            "password" => ["required", Password::min(8)],
+            "name" => ["nullable", "string"],
+            "email" => ["nullable", "email", "unique:users,email," . $this->route("user")->id],
+            "password" => ["nullable", Password::min(8)],
             "address" => ["nullable", "string"],
             "birth_date" => ["nullable", "date_format:Y-m-d"],
-            "preferred_payment" => Rule::enum(PaymentMethod::class),
+            "preferred_payment" => ["nullable", Rule::enum(PaymentMethod::class)],
             "profile_photo" => ["nullable", "image"],
         ];
     }

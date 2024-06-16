@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -12,6 +12,13 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        for ($i = 1; $i <= 10; $i++) {
+            Product::createProduct([
+                "name" => "Product $i",
+                "price" => fake()->numberBetween(0, 1_000_000),
+                "stock" => fake()->numberBetween(0, 100),
+                "description" => fake()->sentences(asText: true),
+            ]);
+        }
     }
 }

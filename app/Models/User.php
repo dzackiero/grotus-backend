@@ -120,4 +120,33 @@ class User extends Authenticatable implements JWTSubject, HasImage
 
         return $this->uploadImage($image, "profile", "profile_" . str($userProfile->name)->slug("_"));
     }
+
+    public function updateUser(
+        string         $name,
+        string         $email,
+        string         $password = "password",
+        ?string        $address = null,
+        ?string        $birthDate = null,
+        ?PaymentMethod $preferredPayment = null,
+        ?string        $profileLink = null,
+        Role           $role = Role::User,
+    ): User
+    {
+        $this->update([
+            "email" => $email,
+            "password" => \Hash::make($password),
+            "role" => $role->value
+        ]);
+
+        $this->profile->update([
+            "user_id" => $this->id,
+            "name" => $name,
+            "address" => $address,
+            "birth_date" => $birthDate,
+            "profile_photo" => $profileLink,
+            "preferred_payment" => $preferredPayment,
+        ]);
+        
+        return $this;
+    }
 }

@@ -22,6 +22,8 @@ namespace App\Models{
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductMedia> $medias
+ * @property-read int|null $medias_count
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -34,7 +36,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStock($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
-	class Product extends \Eloquent {}
+	class Product extends \Eloquent implements \App\Interfaces\HasImage {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property string $path
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\ProductMediaFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia whereUpdatedAt($value)
+ */
+	class ProductMedia extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -87,7 +111,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject {}
+	class User extends \Eloquent implements \Tymon\JWTAuth\Contracts\JWTSubject, \App\Interfaces\HasImage {}
 }
 
 namespace App\Models{

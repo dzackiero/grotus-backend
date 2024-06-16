@@ -22,7 +22,11 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            "name" => ["required", "string"],
+            "price" => ["required", "numeric", "min:0"],
+            "stock" => ["required", "numeric", "min:0"],
+            "description" => ["nullable", "string"],
+            "images.*" => ['nullable', 'image', 'max:2048'],
         ];
     }
 }
