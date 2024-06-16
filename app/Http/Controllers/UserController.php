@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\Cart\CartItemResource;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
+use App\Models\UserCart;
+use App\Models\UserSavedProduct;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -53,7 +56,6 @@ class UserController extends Controller
         return $this->successResponse($data);
     }
 
-
     public function update(UpdateUserRequest $request, User $user): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
@@ -77,6 +79,43 @@ class UserController extends Controller
     public function destroy(User $user): \Illuminate\Http\JsonResponse
     {
         $user->deleteOrFail();
+        return $this->successResponse();
+    }
+
+    /* CART */
+
+    public function userCart(User $user): \Illuminate\Http\JsonResponse
+    {
+        $data = CartItemResource::collection($user->cartItems()->with("product")->get());
+        return $this->successResponse($data);
+    }
+
+    public function updateCartItem(Request $request, UserCart $cartItem): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->validate(["amount" => ["required", "min:0", "numeric"]]);
+        $cartItem->update($data);
+
+        $data = new CartItemResource($cartItem->refresh());
+        return $this->successResponse($data);
+    }
+
+    public function deleteCartItem(UserCart $cartItem): \Illuminate\Http\JsonResponse
+    {
+        $cartItem->deleteOrFail();
+        return $this->successResponse();
+    }
+
+    /* Wishlist */
+
+    public function userWishlist(User $user): \Illuminate\Http\JsonResponse
+    {
+        $data = $user->getWishlist();
+        return $this->successResponse($data);
+    }
+
+    public function deleteWishlistItem(UserSavedProduct $wishlistItem)
+    {
+        $wishlistItem->deleteOrFail();
         return $this->successResponse();
     }
 }

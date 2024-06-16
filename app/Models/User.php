@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
+use App\Http\Resources\Product\ProductResource;
 use App\Interfaces\HasImage;
 use App\Traits\InteractWithImage;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
@@ -18,36 +21,16 @@ class User extends Authenticatable implements JWTSubject, HasImage
 {
     use HasFactory, Notifiable, InteractWithImage;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'email',
-        'password',
-    ];
+    protected $fillable = ['email', 'password'];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = ['password'];
 
-    /**
-     * Get the attributes that should be cast.
-     */
     protected function casts(): array
     {
-        return [
-            'password' => 'hashed',
-        ];
+        return ['password' => 'hashed'];
     }
 
-    /* INTERFACES */
+    /* STUB */
 
     public function getJWTIdentifier()
     {
@@ -79,6 +62,28 @@ class User extends Authenticatable implements JWTSubject, HasImage
     public function profile(): HasOne
     {
         return $this->hasOne(UserProfile::class);
+    }
+
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(UserCart::class, "user_id");
+    }
+
+    public function savedProduct(): HasMany
+    {
+        return $this->hasMany(UserSavedProduct::class, "user_id");
+    }
+
+    /* SCOPE */
+
+    public function scopeAdmins(Builder $query): Builder
+    {
+        return $query->where("role", Role::Admin->value);
+    }
+
+    public function scopeUsers(Builder $query): Builder
+    {
+        return $query->where("role", Role::User->value);
     }
 
     /* METHODS */
@@ -146,7 +151,31 @@ class User extends Authenticatable implements JWTSubject, HasImage
             "profile_photo" => $profileLink,
             "preferred_payment" => $preferredPayment,
         ]);
-        
+
         return $this;
+    }
+
+    public function addToCart(Product $product, $amount = 1): UserCart
+    {
+        return UserCart::create([
+            "user_id" => $this->id,
+            "product_id" => $product->id,
+            "amount" => $amount,
+        ]);
+    }
+
+    public function addToWishlist(Product $product): UserSavedProduct
+    {
+        return UserSavedProduct::create([
+            "user_id" => $this->id,
+            "product_id" => $product->id,
+        ]);
+    }
+
+    public function getWishlist(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        $products = $this->savedProduct()->pluck("product_id")->toArray();
+        $products = Product::whereIn("id", $products)->get();
+        return ProductResource::collection($products);
     }
 }

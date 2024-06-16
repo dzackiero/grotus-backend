@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Http\Resources\Cart\CartItemResource;
 use App\Http\Resources\Product\ProductDetailResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Models\ProductMedia;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -88,5 +90,25 @@ class ProductController extends Controller
     {
         $product->deleteOrFail();
         return $this->successResponse();
+    }
+
+    /* CART */
+
+    public function addToCart(Product $product): \Illuminate\Http\JsonResponse
+    {
+        $user = User::find(auth()->user()->id);
+        $user->addToCart($product);
+
+        $carts = CartItemResource::collection($user->cartItems);
+        return $this->successResponse($carts);
+    }
+
+    public function addToWishlist(Product $product): \Illuminate\Http\JsonResponse
+    {
+        $user = User::find(auth()->user()->id);
+        $user->addToWishlist($product);
+
+        $carts = CartItemResource::collection($user->cartItems);
+        return $this->successResponse($carts);
     }
 }

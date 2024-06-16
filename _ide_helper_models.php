@@ -48,6 +48,7 @@ namespace App\Models{
  * @property string $path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
  * @method static \Database\Factories\ProductMediaFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductMedia newQuery()
@@ -97,6 +98,8 @@ namespace App\Models{
  * @property string $role
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserCart> $cartItems
+ * @property-read int|null $cart_items_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\UserProfile|null $profile
@@ -120,6 +123,32 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $user_id
+ * @property int $product_id
+ * @property int $amount
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\UserCartFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserCart whereUserId($value)
+ */
+	class UserCart extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $user_id
  * @property string $name
  * @property string|null $address
  * @property string|null $phone
@@ -128,7 +157,7 @@ namespace App\Models{
  * @property string|null $preferred_payment
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\User $user
  * @method static \Database\Factories\UserProfileFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|UserProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|UserProfile newQuery()
