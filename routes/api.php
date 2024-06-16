@@ -6,7 +6,7 @@ Route::get("/", function () {
     return response()->json([
         "message" => "Welcome to Grotus API",
     ]);
-});
+})->name("api");
 
 
 Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']);
