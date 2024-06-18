@@ -10,6 +10,8 @@ Route::get("/", function () {
 
 
 Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']);
+Route::post('auth/register', [\App\Http\Controllers\AuthController::class, 'register']);
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);

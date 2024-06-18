@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Models\User;
+
 class AuthController extends Controller
 {
-    /**
-     * Get a JWT via given credentials.
-     */
+    public function register(RegisterUserRequest $request)
+    {
+        $data = $request->validated();
+        $user = User::createUser($data["name"], $data["email"], $data["password"]);
+
+        $token = auth()->login($user);
+        return $this->respondWithToken($token);
+    }
+
     public function login()
     {
         $credentials = request(['email', 'password']);
