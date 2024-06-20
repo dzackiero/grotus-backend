@@ -162,6 +162,15 @@ class User extends Authenticatable implements JWTSubject, HasImage
 
     public function addToCart(Product $product, $amount = 1): UserCart
     {
+        $cartItem = UserCart::find($product->id);
+        if ($cartItem) {
+            $cartItem->update([
+                "amount" => $amount
+            ]);
+
+            return $cartItem->refresh();
+        }
+
         return UserCart::create([
             "user_id" => $this->id,
             "product_id" => $product->id,

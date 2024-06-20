@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AddToCartRequest;
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
 use App\Http\Resources\Cart\CartItemResource;
@@ -101,10 +102,12 @@ class ProductController extends Controller
 
     /* CART */
 
-    public function addToCart(Product $product): \Illuminate\Http\JsonResponse
+    public function addToCart(AddToCartRequest $request, Product $product): \Illuminate\Http\JsonResponse
     {
+        $data = $request->validated();
+        
         $user = User::find(auth()->user()->id);
-        $user->addToCart($product);
+        $user->addToCart($product, $data["amount"]);
 
         $carts = CartItemResource::collection($user->cartItems);
         return $this->successResponse($carts);
