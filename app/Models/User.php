@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\PaymentMethod;
 use App\Enums\Role;
-use App\Http\Resources\Product\ProductResource;
 use App\Interfaces\HasImage;
 use App\Traits\InteractWithImage;
 use Illuminate\Database\Eloquent\Builder;
@@ -180,16 +179,13 @@ class User extends Authenticatable implements JWTSubject, HasImage
 
     public function addToWishlist(Product $product): UserSavedProduct
     {
+        if ($this->savedProduct()->where("product_id", $product->id)) {
+            throw new \Exception("Duplicate wishlist product", 422);
+        }
+
         return UserSavedProduct::create([
             "user_id" => $this->id,
             "product_id" => $product->id,
         ]);
-    }
-
-    public function getWishlist(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-        $products = $this->savedProduct()->pluck("product_id")->toArray();
-        $products = Product::whereIn("id", $products)->get();
-        return ProductResource::collection($products);
     }
 }

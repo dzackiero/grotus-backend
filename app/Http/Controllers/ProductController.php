@@ -118,7 +118,7 @@ class ProductController extends Controller
         $user = User::find(auth()->user()->id);
         $user->addToWishlist($product);
 
-        $carts = CartItemResource::collection($user->cartItems);
+        $carts = CartItemResource::collection($user->savedProduct()->with("product")->get());
         return $this->successResponse($carts);
     }
 }

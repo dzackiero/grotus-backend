@@ -11,4 +11,12 @@ abstract class Controller
             "data" => $data
         ]);
     }
+
+    public function errorResponse(string $message = "Error occurred", $error = null, int $code = 500): \Illuminate\Http\JsonResponse
+    {
+        return response()->json([
+            "message" => $message,
+            "error" => $error
+        ], $code);
+    }
 }

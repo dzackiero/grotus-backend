@@ -93,6 +93,55 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property int $user_id
+ * @property string $name
+ * @property string $address
+ * @property string $phone_number
+ * @property string|null $payment_method
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TransactionProduct> $transactionProduct
+ * @property-read int|null $transaction_product_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\TransactionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePaymentMethod($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUserId($value)
+ */
+	class Transaction extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\TransactionProductFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereUpdatedAt($value)
+ */
+	class TransactionProduct extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string $email
  * @property mixed $password
  * @property string $role
@@ -103,10 +152,15 @@ namespace App\Models{
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \App\Models\UserProfile|null $profile
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserSavedProduct> $savedProduct
+ * @property-read int|null $saved_product_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User admins()
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User search(string $keyword)
+ * @method static \Illuminate\Database\Eloquent\Builder|User users()
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
@@ -174,5 +228,29 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|UserProfile whereUserId($value)
  */
 	class UserProfile extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $product_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\UserSavedProductFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|UserSavedProduct whereUserId($value)
+ */
+	class UserSavedProduct extends \Eloquent {}
 }
 

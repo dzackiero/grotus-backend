@@ -6,6 +6,7 @@ use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\Cart\CartItemResource;
 use App\Http\Resources\User\UserResource;
+use App\Http\Resources\Wishlist\WishlistProductResource;
 use App\Models\User;
 use App\Models\UserCart;
 use App\Models\UserSavedProduct;
@@ -113,11 +114,12 @@ class UserController extends Controller
 
     public function userWishlist(User $user): \Illuminate\Http\JsonResponse
     {
-        $data = $user->getWishlist();
+        $data = $user->savedProduct()->with(["product"])->get();
+        $data = WishlistProductResource::collection($data);
         return $this->successResponse($data);
     }
 
-    public function deleteWishlistItem(UserSavedProduct $wishlistItem)
+    public function deleteWishlistItem(UserSavedProduct $wishlistItem): \Illuminate\Http\JsonResponse
     {
         $wishlistItem->deleteOrFail();
         return $this->successResponse();
