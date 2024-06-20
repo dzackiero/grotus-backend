@@ -166,9 +166,8 @@ class User extends Authenticatable implements JWTSubject, HasImage
             ->where("product_id", $product->id)->first();
         if ($cartItem) {
             $cartItem->update([
-                "amount" => $amount
+                "amount" => $cartItem->amount + $amount,
             ]);
-
             return $cartItem->refresh();
         }
 
@@ -185,11 +184,6 @@ class User extends Authenticatable implements JWTSubject, HasImage
             "user_id" => $this->id,
             "product_id" => $product->id,
         ]);
-    }
-
-    public function checkoutCart()
-    {
-
     }
 
     public function getWishlist(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
