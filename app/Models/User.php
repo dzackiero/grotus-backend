@@ -179,7 +179,7 @@ class User extends Authenticatable implements JWTSubject, HasImage
 
     public function addToWishlist(Product $product): UserSavedProduct
     {
-        if ($this->savedProduct()->where("product_id", $product->id)) {
+        if (UserSavedProduct::where("user_id", $this->id)->where("product_id", $product->id)->exists()) {
             throw new \Exception("Duplicate wishlist product", 422);
         }
 

@@ -51,4 +51,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/{product}/cart", [\App\Http\Controllers\ProductController::class, "addToCart"]);
         Route::post("/{product}/wishlist", [\App\Http\Controllers\ProductController::class, "addToWishlist"]);
     });
+
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::get("/", [\App\Http\Controllers\TransactionController::class, "index"]);
+        Route::post("/", [\App\Http\Controllers\TransactionController::class, "store"]);
+        Route::get("/{transaction}", [\App\Http\Controllers\TransactionController::class, "show"]);
+        Route::put("/{transaction}/pay", [\App\Http\Controllers\TransactionController::class, "put"]);
+        Route::delete("/{transaction}", [\App\Http\Controllers\TransactionController::class, "destroy"]);
+    });
 });

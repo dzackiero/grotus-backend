@@ -11,6 +11,8 @@ class Transaction extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /* RELATIONSHIP */
 
     public function user(): BelongsTo
@@ -27,13 +29,17 @@ class Transaction extends Model
 
     public static function createTransaction(User $user): Transaction
     {
+        if ($user->cartItems()->doesntExist()) {
+            throw new \Exception("No Item on this user cart", 422);
+        }
+
         $profile = $user->profile;
         $transaction = Transaction::create([
             "user_id" => $user->id,
             "name" => $profile->name,
-            "address" => $profile->address,
-            "phone_number" => $profile->phone,
-            "payment" => $profile->preferred_payment,
+            "address" => $profile->address ?? '',
+            "phone_number" => $profile->phone ?? '',
+            "payment_method" => $profile->preferred_payment,
         ]);
 
         $cartItems = $user->cartItems;
@@ -50,6 +56,7 @@ class Transaction extends Model
             "transaction_id" => $this->id,
             "product_id" => $item->product_id,
             "rating_id" => null,
+            "price" => $item->product->price,
             "amount" => $item->amount,
         ]);
 
