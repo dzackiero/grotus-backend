@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId("user_id");
             $table->string("name");
             $table->string("address");
-            $table->string("phone_number");
+            $table->string("phone");
             $table->enum("payment_method", enumValues(\App\Enums\PaymentMethod::cases()))->nullable();
             $table->dateTime("paid_at")->nullable();
             $table->timestamps();

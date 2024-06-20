@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
-use App\Http\Requests\Cart\PaymentTransactionRequest;
+use App\Http\Requests\Transaction\PaymentTransactionRequest;
+use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Resources\Transaction\TransactionResource;
 use App\Models\Transaction;
 use App\Models\User;
@@ -42,11 +43,12 @@ class TransactionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(): \Illuminate\Http\JsonResponse
+    public function store(StoreTransactionRequest $request): \Illuminate\Http\JsonResponse
     {
         $user = auth()->user();
+        $data = $request->validated();
 
-        $transaction = Transaction::createTransaction($user);
+        $transaction = Transaction::createTransaction($user, $data);
         $transaction = $transaction->with("transactionProducts")->find($transaction->id);
 
         $transaction = new TransactionResource($transaction);

@@ -19,7 +19,7 @@ class TransactionResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "address" => $this->address,
-            "phone_number" => $this->phone_number,
+            "phone" => $this->phone,
             "payment_method" => $this->payment_method,
             "products" => $this->whenLoaded("transactionProducts", function () {
                 return $this->transactionProducts;

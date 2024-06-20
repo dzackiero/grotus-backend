@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Cart;
+namespace App\Http\Requests\Transaction;
 
+use App\Enums\PaymentMethod;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class PaymentTransactionRequest extends FormRequest
+class StoreTransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +24,9 @@ class PaymentTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "address" => ["required", "string"],
+            "phone" => ["required", "string"],
+            "payment_method" => ["required", Rule::enum(PaymentMethod::class)],
         ];
     }
 }

@@ -27,7 +27,13 @@ class Transaction extends Model
 
     /* METHODS */
 
-    public static function createTransaction(User $user): Transaction
+    /**
+     * @param User $user
+     * @param array{address: string, phone: string, payment_method: string} $transactionData
+     * @return Transaction
+     * @throws \Exception
+     */
+    public static function createTransaction(User $user, array $transactionData): Transaction
     {
         if ($user->cartItems()->doesntExist()) {
             throw new \Exception("No Item on this user cart", 422);
@@ -37,9 +43,9 @@ class Transaction extends Model
         $transaction = Transaction::create([
             "user_id" => $user->id,
             "name" => $profile->name,
-            "address" => $profile->address ?? '',
-            "phone_number" => $profile->phone ?? '',
-            "payment_method" => $profile->preferred_payment,
+            "address" => $transactionData["address"],
+            "phone" => $transactionData["phone"],
+            "payment_method" => $transactionData["payment_method"],
         ]);
 
         $cartItems = $user->cartItems;
