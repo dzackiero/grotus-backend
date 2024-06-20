@@ -24,7 +24,7 @@ class TransactionController extends Controller
         $sortBy = $request->query("sortBy", "created_at");
         $direction = $request->query("direction", "asc");
 
-        $query = QueryBuilder::for(Transaction::class);
+        $query = QueryBuilder::for(Transaction::class)->with("transactionProducts");
         if ($user->role === Role::User->value) {
             $query = $query->where("user_id", $user->id);
         }

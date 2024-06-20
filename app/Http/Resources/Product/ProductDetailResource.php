@@ -36,6 +36,9 @@ class ProductDetailResource extends JsonResource
                 return null;
             }
             ),
+            
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
         ];
     }
 }

@@ -27,6 +27,9 @@ class UserResource extends JsonResource
                 "preferred_payment" => $this->profile->preferred_payment,
                 "profile_photo" => asset($this->profile->profile_photo),
             ]),
+
+            "created_at" => $this->created_at,
+            "updated_at" => $this->updated_at,
         ];
     }
 }

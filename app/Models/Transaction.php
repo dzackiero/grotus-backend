@@ -22,7 +22,7 @@ class Transaction extends Model
 
     public function transactionProducts(): HasMany
     {
-        return $this->hasMany(TransactionProduct::class);
+        return $this->hasMany(TransactionProduct::class, "transaction_id");
     }
 
     /* METHODS */
