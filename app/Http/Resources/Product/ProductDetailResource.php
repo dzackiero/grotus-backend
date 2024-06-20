@@ -18,7 +18,7 @@ class ProductDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         $user = User::find(auth()->user()->id);
-        $isSaved = $user->savedProduct()->where("product_id", $this->id)->exists();
+        $isSaved = (bool)$user?->savedProduct()->where("product_id", $this->id)->exists();
         return [
             "id" => $this->id,
             "name" => $this->name,
