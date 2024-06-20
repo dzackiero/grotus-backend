@@ -10,6 +10,8 @@ class UserSavedProduct extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     /* RELATIONSHIP */
 
     public function user(): BelongsTo
