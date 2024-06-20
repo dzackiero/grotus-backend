@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\ProductMedia;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -22,8 +23,14 @@ class ProductController extends Controller
     {
         $page = $request->query("page", 1);
         $perPage = $request->query("perPage", 10);
+        $sortBy = $request->query("sortBy", "created_at");
+        $direction = $request->query("direction", "asc");
 
         $data = QueryBuilder::for(Product::class)->with(["medias"])
+            ->allowedFilters([
+                AllowedFilter::partial("search", "name"),
+            ])
+            ->orderBy($sortBy, $direction)
             ->paginate(
                 perPage: $perPage,
                 page: $page,

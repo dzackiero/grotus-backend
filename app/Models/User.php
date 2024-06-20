@@ -86,6 +86,11 @@ class User extends Authenticatable implements JWTSubject, HasImage
         return $query->where("role", Role::User->value);
     }
 
+    public function scopeSearch(Builder $query, string $keyword): Builder
+    {
+        return $query->where("name", "LIKE", "%{$keyword}");
+    }
+
     /* METHODS */
 
     public static function createUser(

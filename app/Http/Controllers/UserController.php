@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\UserCart;
 use App\Models\UserSavedProduct;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -20,6 +21,9 @@ class UserController extends Controller
         $perPage = $request->query("perPage", 10);
 
         $data = QueryBuilder::for(User::class)->with(["profile"])
+            ->allowedFilters([
+                AllowedFilter::scope("search"),
+            ])
             ->paginate(
                 perPage: $perPage,
                 page: $page,

@@ -12,6 +12,11 @@ Route::get("/", function () {
 Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::post('auth/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
+Route::group(["prefix" => "project"], function () {
+    Route::get("/", [\App\Http\Controllers\ProductController::class, "index"]);
+    Route::get("/{product}", [\App\Http\Controllers\ProductController::class, "show"]);
+});
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
@@ -38,7 +43,6 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete("/{wishlistItem}", [\App\Http\Controllers\UserController::class, "deleteWishlistItem"]);
     });
 
-
     Route::delete("products/media/{media}", [\App\Http\Controllers\ProductController::class, "deleteMedia"]);
     Route::group(['prefix' => 'products'], function () {
         Route::get("/", [\App\Http\Controllers\ProductController::class, "index"]);
@@ -49,5 +53,4 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/{product}/cart", [\App\Http\Controllers\ProductController::class, "addToCart"]);
         Route::post("/{product}/wishlist", [\App\Http\Controllers\ProductController::class, "addToWishlist"]);
     });
-
 });

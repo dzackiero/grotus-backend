@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\User\RegisterUserRequest;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function register(RegisterUserRequest $request)
+    public function register(RegisterUserRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
         $user = User::createUser($data["name"], $data["email"], $data["password"]);
@@ -16,7 +16,7 @@ class AuthController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function login()
+    public function login(): \Illuminate\Http\JsonResponse
     {
         $credentials = request(['email', 'password']);
 
@@ -30,7 +30,7 @@ class AuthController extends Controller
     /**
      * Get the authenticated User.
      */
-    public function me()
+    public function me(): \Illuminate\Http\JsonResponse
     {
         return response()->json(auth()->user());
     }
@@ -38,7 +38,7 @@ class AuthController extends Controller
     /**
      * Log the user out (Invalidate the token).
      */
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         auth()->logout();
 
@@ -48,7 +48,7 @@ class AuthController extends Controller
     /**
      * Refresh a token.
      */
-    public function refresh()
+    public function refresh(): \Illuminate\Http\JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
     }
@@ -56,7 +56,7 @@ class AuthController extends Controller
     /**
      * Get the token array structure.
      */
-    protected function respondWithToken(string $token)
+    protected function respondWithToken(string $token): \Illuminate\Http\JsonResponse
     {
         return response()->json([
             'access_token' => $token,
