@@ -12,7 +12,7 @@ Route::get("/", function () {
 Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']);
 Route::post('auth/register', [\App\Http\Controllers\AuthController::class, 'register']);
 
-Route::group(["prefix" => "project"], function () {
+Route::group(["prefix" => "products"], function () {
     Route::get("/", [\App\Http\Controllers\ProductController::class, "index"]);
     Route::get("/{product}", [\App\Http\Controllers\ProductController::class, "show"]);
 });
