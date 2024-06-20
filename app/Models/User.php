@@ -162,7 +162,8 @@ class User extends Authenticatable implements JWTSubject, HasImage
 
     public function addToCart(Product $product, $amount = 1): UserCart
     {
-        $cartItem = UserCart::find($product->id);
+        $cartItem = $this->cartItems()
+            ->where("product_id", $product->id)->first();
         if ($cartItem) {
             $cartItem->update([
                 "amount" => $amount
@@ -184,6 +185,11 @@ class User extends Authenticatable implements JWTSubject, HasImage
             "user_id" => $this->id,
             "product_id" => $product->id,
         ]);
+    }
+
+    public function checkoutCart()
+    {
+
     }
 
     public function getWishlist(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
