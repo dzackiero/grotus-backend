@@ -45,9 +45,7 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::delete("products/media/{media}", [\App\Http\Controllers\ProductController::class, "deleteMedia"]);
     Route::group(['prefix' => 'products'], function () {
-        Route::get("/", [\App\Http\Controllers\ProductController::class, "index"]);
         Route::post("/", [\App\Http\Controllers\ProductController::class, "store"]);
-        Route::get("/{product}", [\App\Http\Controllers\ProductController::class, "show"]);
         Route::post("/{product}", [\App\Http\Controllers\ProductController::class, "update"]);
         Route::delete("/{product}", [\App\Http\Controllers\ProductController::class, "destroy"]);
         Route::post("/{product}/cart", [\App\Http\Controllers\ProductController::class, "addToCart"]);
