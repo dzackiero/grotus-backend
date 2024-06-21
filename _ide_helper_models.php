@@ -73,6 +73,9 @@ namespace App\Models{
  * @property string $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product|null $product
+ * @property-read \App\Models\TransactionProduct|null $transactionProduct
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ProductRatingFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|ProductRating newQuery()
@@ -96,12 +99,13 @@ namespace App\Models{
  * @property int $user_id
  * @property string $name
  * @property string $address
- * @property string $phone_number
+ * @property string $phone
  * @property string|null $payment_method
+ * @property string|null $paid_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TransactionProduct> $transactionProduct
- * @property-read int|null $transaction_product_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TransactionProduct> $transactionProducts
+ * @property-read int|null $transaction_products_count
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\TransactionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction newModelQuery()
@@ -111,8 +115,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePaidAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePaymentMethod($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUserId($value)
  */
@@ -124,14 +129,26 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property int $transaction_id
+ * @property int $product_id
+ * @property int|null $rating_id
+ * @property int $amount
+ * @property float $price
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ProductRating|null $rating
+ * @property-read \App\Models\Transaction $transaction
  * @method static \Database\Factories\TransactionProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct query()
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereRatingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereTransactionId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereUpdatedAt($value)
  */
 	class TransactionProduct extends \Eloquent {}

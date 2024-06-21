@@ -22,7 +22,7 @@ class TransactionResource extends JsonResource
             "phone" => $this->phone,
             "payment_method" => $this->payment_method,
             "products" => $this->whenLoaded("transactionProducts", function () {
-                return $this->transactionProducts;
+                return TransactionProductResource::collection($this->transactionProducts);
             }),
             "paid_at" => $this->paid_at,
             "created_at" => $this->created_at,

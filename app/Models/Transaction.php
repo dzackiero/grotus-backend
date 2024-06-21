@@ -43,9 +43,9 @@ class Transaction extends Model
         $transaction = Transaction::create([
             "user_id" => $user->id,
             "name" => $profile->name,
-            "address" => $transactionData["address"],
-            "phone" => $transactionData["phone"],
-            "payment_method" => $transactionData["payment_method"],
+            "address" => $transactionData["address"] ?? "",
+            "phone" => $transactionData["phone"] ?? "",
+            "payment_method" => $transactionData["payment_method"] ?? "",
         ]);
 
         $cartItems = $user->cartItems;
@@ -58,11 +58,13 @@ class Transaction extends Model
 
     public function addProduct(UserCart $item): TransactionProduct
     {
+        $product = $item->product;
         $transactionProduct = TransactionProduct::create([
             "transaction_id" => $this->id,
             "product_id" => $item->product_id,
             "rating_id" => null,
-            "price" => $item->product->price,
+            "name" => $product->name,
+            "price" => $product->price,
             "amount" => $item->amount,
         ]);
 

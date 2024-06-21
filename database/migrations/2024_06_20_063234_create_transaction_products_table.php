@@ -15,8 +15,12 @@ return new class extends Migration {
             $table->foreignId("transaction_id")->constrained()->cascadeOnDelete();
             $table->foreignId("product_id");
             $table->foreignId("rating_id")->nullable();
-            $table->unsignedInteger("amount");
+            
+            /* Duplicate of the product */
+            $table->string("name");
             $table->double("price");
+            $table->unsignedInteger("amount");
+
             $table->timestamps();
         });
     }

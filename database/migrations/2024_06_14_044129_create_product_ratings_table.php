@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId("user_id");
             $table->foreignId("product_id");
             $table->float("rating")->comment("min: 0; max: 5");
-            $table->string("description");
+            $table->string("description")->nullable();
             $table->timestamps();
         });
     }

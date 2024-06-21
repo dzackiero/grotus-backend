@@ -59,4 +59,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::put("/{transaction}/pay", [\App\Http\Controllers\TransactionController::class, "payment"]);
         Route::delete("/{transaction}", [\App\Http\Controllers\TransactionController::class, "destroy"]);
     });
+
+    Route::group(['prefix' => 'transaction-products'], function () {
+        Route::get("/", [\App\Http\Controllers\TransactionProductController::class, "index"]);
+        Route::get("/{transactionProduct}", [\App\Http\Controllers\TransactionProductController::class, "show"]);
+        Route::put("/{transactionProduct}", [\App\Http\Controllers\TransactionProductController::class, "rate"]);
+    });
 });
