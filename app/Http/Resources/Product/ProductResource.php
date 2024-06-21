@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
             "price" => $this->price,
             "stock" => $this->stock,
             "description" => $this->description,
+            "metadata" => $this->metadata,
             "photo" => $this->whenLoaded("medias", function () {
                 if ($media = $this->medias()->first()) {
                     return asset($media->path);

@@ -26,6 +26,7 @@ class ProductDetailResource extends JsonResource
             "stock" => $this->stock,
             "description" => $this->description,
             "saved" => $isSaved,
+            "metadata" => $this->metadata,
             "nutrition_types" => $this->nutritionTypes?->map(fn($nutrition) => ["id" => $nutrition->id, "name" => $nutrition->name]) ?? [],
             "photos" => $this->whenLoaded("medias", function () {
                 if ($this->medias()->exists()) {
