@@ -10,15 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('nutrition_types', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->double("price");
-            $table->unsignedInteger("stock");
-            $table->string("description");
-            $table->enum("type",
-                enumValues(\App\Enums\ProductType::cases()));
-            $table->longText("metadata")->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +22,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('nutrition_types');
     }
 };

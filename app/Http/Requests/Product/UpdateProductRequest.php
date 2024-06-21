@@ -25,7 +25,9 @@ class UpdateProductRequest extends FormRequest
             "name" => ["nullable", "string"],
             "price" => ["nullable", "numeric", "min:0"],
             "stock" => ["nullable", "numeric", "min:0"],
-            "description" => ["nullable", "string"],
+            "description" => ["required", "string"],
+            "metadata" => ["nullable", "string"],
+            "nutrition_types" => ['nullable', 'array'],
             "images.*" => ['nullable', 'image', 'max:2048'],
         ];
     }

@@ -26,6 +26,7 @@ class ProductDetailResource extends JsonResource
             "stock" => $this->stock,
             "description" => $this->description,
             "saved" => $isSaved,
+            "nutrition_types" => $this->nutritionTypes?->map(fn($nutrition) => ["id" => $nutrition->id, "name" => $nutrition->name]) ?? [],
             "photos" => $this->whenLoaded("medias", function () {
                 if ($this->medias()->exists()) {
                     return $this->medias->map(fn(ProductMedia $media) => [
@@ -36,7 +37,7 @@ class ProductDetailResource extends JsonResource
                 return null;
             }
             ),
-            
+
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

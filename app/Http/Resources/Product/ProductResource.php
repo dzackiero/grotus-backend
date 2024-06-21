@@ -28,7 +28,7 @@ class ProductResource extends JsonResource
                 return null;
             }
             ),
-
+            "nutrition_types" => $this->nutritionTypes?->map(fn($nutrition) => ["id" => $nutrition->id, "name" => $nutrition->name]) ?? [],
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

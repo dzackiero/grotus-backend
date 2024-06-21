@@ -6,6 +6,7 @@ use App\Interfaces\HasImage;
 use App\Traits\InteractWithImage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model implements HasImage
@@ -19,6 +20,11 @@ class Product extends Model implements HasImage
     public function medias(): HasMany
     {
         return $this->hasMany(ProductMedia::class, "product_id");
+    }
+
+    public function nutritionTypes(): BelongsToMany
+    {
+        return $this->belongsToMany(NutritionType::class);
     }
 
     /* STUBS */
@@ -44,9 +50,30 @@ class Product extends Model implements HasImage
 
     /* METHODS */
 
-    public static function createProduct(iterable $productData, ?array $images = null): Product
+    public static function createProduct(
+        iterable $productData,
+        ?array   $images = null,
+        ?array   $nutritionTypes = null
+    ): Product
     {
         $product = Product::create($productData);
+        $product->nutritionTypes()->attach($nutritionTypes);
+
+        if ($images) {
+            $product->uploadMedia($images);
+        }
+
+        return $product;
+    }
+
+    public function updateProduct(
+        iterable $productData,
+        ?array   $images = null,
+        ?array   $nutritionTypes = null
+    ): Product
+    {
+        $product = Product::create($productData);
+        $product->nutritionTypes()->sync($nutritionTypes);
 
         if ($images) {
             $product->uploadMedia($images);

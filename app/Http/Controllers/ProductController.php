@@ -20,7 +20,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): \Illuminate\Http\JsonResponse
     {
         $page = $request->query("page", 1);
         $perPage = $request->query("perPage", 10);
@@ -44,20 +44,20 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request): \Illuminate\Http\JsonResponse
     {
-        $data = $request->except("images");
+        $data = $request->except(["images", "nutrition_types"]);
 
-        $product = Product::createProduct($data, $request->file("images"));
+        $product = Product::createProduct($data, $request->file("images"), $request->input("nutrition_types"));
 
-        $data = new ProductResource($product);
+        $data = new ProductDetailResource($product->with("medias")->find($product->id));
         return $this->successResponse($data);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show(Product $product): \Illuminate\Http\JsonResponse
     {
         $product = $product->with(["medias"])->find($product->id);
         $data = new ProductDetailResource($product);
@@ -70,12 +70,8 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): \Illuminate\Http\JsonResponse
     {
-        $data = $request->except("images");
-        $product->update($data);
-
-        if ($images = $request->file("images")) {
-            $product->uploadMedia($images);
-        }
+        $data = $request->except(["images", "nutrition_types"]);
+        $product->updateProduct($data, $request->file("images"), $request->input("nutrition_types"));
 
         $data = new ProductDetailResource($product->with("medias")->find($product->id));
         return $this->successResponse($data);

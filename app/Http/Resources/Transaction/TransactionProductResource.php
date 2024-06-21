@@ -22,6 +22,10 @@ class TransactionProductResource extends JsonResource
             "price" => $this->price,
             "amount" => $this->amount,
             "rating" => $this->rating,
+            "nutrition_types" => $this->product?->nutritionTypes?->map(fn($nutrition) => [
+                    "id" => $nutrition->id,
+                    "name" => $nutrition->name
+                ]) ?? [],
             "photo" => $this->whenLoaded("medias", function () {
                 if ($media = $this->medias()->first()) {
                     return asset($media->path);

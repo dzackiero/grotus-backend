@@ -26,6 +26,7 @@ class StoreProductRequest extends FormRequest
             "price" => ["required", "numeric", "min:0"],
             "stock" => ["required", "numeric", "min:0"],
             "description" => ["nullable", "string"],
+            "nutrition_types" => ['nullable', 'array'],
             "images.*" => ['nullable', 'image', 'max:2048'],
         ];
     }
