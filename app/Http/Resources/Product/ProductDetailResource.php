@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /* @mixin \App\Models\Product */
-class ProductDetailResource extends JsonResource
+class  ProductDetailResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,8 @@ class ProductDetailResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = User::find(auth()->user()->id);
-        $isSaved = (bool)$user?->savedProduct()->where("product_id", $this->id)->exists();
+        $user = User::find(auth()->user()?->id);
+        $isSaved = $user && $user->savedProduct()->where("product_id", $this->id)->exists();
         return [
             "id" => $this->id,
             "name" => $this->name,
