@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Transaction\RateTransactionProductRequest;
-use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Transaction\TransactionProductResource;
 use App\Models\TransactionProduct;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,7 +32,7 @@ class TransactionProductController extends Controller
                 page: $page,
             );
 
-        $data = ProductResource::collection($data);
+        $data = TransactionProductResource::collection($data);
         return $this->successResponse($data->resource);
     }
 
