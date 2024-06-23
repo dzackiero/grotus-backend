@@ -6,6 +6,7 @@ use App\Http\Requests\Transaction\RateTransactionProductRequest;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Transaction\TransactionProductResource;
 use App\Models\TransactionProduct;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -20,6 +21,9 @@ class TransactionProductController extends Controller
         $direction = $request->query("direction", "asc");
 
         $data = QueryBuilder::for(TransactionProduct::class)->with(["medias"])
+            ->whereHas("transaction", function (Builder $query) {
+                $query->whereNotNull("paid_at");
+            })
             ->allowedFilters([
                 AllowedFilter::partial("search", "name"),
             ])
