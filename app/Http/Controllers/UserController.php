@@ -65,11 +65,11 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $user->updateUser(
-            $data["name"],
-            $data["email"],
-            $data["password"],
-            $data["address"],
-            $data["birth_date"],
+            $data["name"] ?? null,
+            $data["email"] ?? null,
+            $data["password"] ?? null,
+            $data["address"] ?? null,
+            $data["birth_date"] ?? null,
         );
 
         if ($request->hasFile("profile_photo")) {
