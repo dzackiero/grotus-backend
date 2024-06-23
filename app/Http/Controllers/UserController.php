@@ -64,7 +64,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user): \Illuminate\Http\JsonResponse
     {
         $userData = $request->collect(["email", "password"]);
-        $profileData = $request->collect(["name", "address", "birth_date", "preferred_payment"]);
+        $profileData = $request->collect(["name", "address", "birth_date", "preferred_payment", "phone"]);
 
         $user->updateUser($userData, $profileData);
 
