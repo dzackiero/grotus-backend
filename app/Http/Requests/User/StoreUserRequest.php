@@ -30,6 +30,7 @@ class StoreUserRequest extends FormRequest
             "email" => ["required", "email", "unique:users"],
             "password" => ["required", Password::min(8)],
             "address" => ["nullable", "string"],
+            "phone" => ["nullable", "string"],
             "birth_date" => ["nullable", "date_format:Y-m-d"],
             "preferred_payment" => ["nullable", Rule::enum(PaymentMethod::class)],
             "profile_photo" => ["nullable", "image"],

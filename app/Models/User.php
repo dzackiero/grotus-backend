@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -130,30 +131,27 @@ class User extends Authenticatable implements JWTSubject, HasImage
         return $this->uploadImage($image, "profile", "profile_" . str($userProfile->name)->slug("_"));
     }
 
+    /**
+     * @param Collection $user {email: string}
+     * @param Collection $profile {name: string, address: string, birth_date: string, preferred_payment}
+     * @return $this
+     */
     public function updateUser(
-        string         $name,
-        string         $email,
-        string         $password = "password",
-        ?string        $address = null,
-        ?string        $birthDate = null,
-        ?PaymentMethod $preferredPayment = null,
-        ?string        $profileLink = null,
-        Role           $role = Role::User,
+        Collection $user,
+        Collection $profile,
     ): User
     {
         $this->update([
-            "email" => $email,
-            "password" => \Hash::make($password),
-            "role" => $role->value
+            "email" => $user->get("email"),
+            "password" => $user->get("password"),
         ]);
 
         $this->profile->update([
-            "user_id" => $this->id,
-            "name" => $name,
-            "address" => $address,
-            "birth_date" => $birthDate,
-            "profile_photo" => $profileLink,
-            "preferred_payment" => $preferredPayment,
+            "name" => $profile->get("name"),
+            "address" => $profile->get("address"),
+            "birth_date" => $profile->get("birth_date"),
+            "profile_photo" => $profile->get("profile_photo"),
+            "preferred_payment" => $profile->get("preferred_payment"),
         ]);
 
         return $this;
