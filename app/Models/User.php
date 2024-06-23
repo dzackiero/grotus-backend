@@ -141,18 +141,8 @@ class User extends Authenticatable implements JWTSubject, HasImage
         Collection $profile,
     ): User
     {
-        $this->update([
-            "email" => $user->get("email"),
-            "password" => $user->get("password"),
-        ]);
-
-        $this->profile->update([
-            "name" => $profile->get("name"),
-            "address" => $profile->get("address"),
-            "birth_date" => $profile->get("birth_date"),
-            "profile_photo" => $profile->get("profile_photo"),
-            "preferred_payment" => $profile->get("preferred_payment"),
-        ]);
+        $this->update($user->toArray());
+        $this->profile->update($profile->toArray());
 
         return $this;
     }
