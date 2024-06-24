@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Role;
 use App\Http\Requests\Transaction\RateTransactionProductRequest;
 use App\Http\Resources\Transaction\TransactionProductResource;
 use App\Models\TransactionProduct;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -14,19 +16,26 @@ class TransactionProductController extends Controller
 {
     public function index(Request $request): \Illuminate\Http\JsonResponse
     {
+        $user = User::find(auth()->user()->id);
+
         $page = $request->query("page", 1);
         $perPage = $request->query("perPage", 10);
         $sortBy = $request->query("sortBy", "created_at");
         $direction = $request->query("direction", "asc");
 
-        $data = QueryBuilder::for(TransactionProduct::class)->with(["medias"])
+        $query = QueryBuilder::for(TransactionProduct::class)->with(["medias"])
             ->whereHas("transaction", function (Builder $query) {
                 $query->whereNotNull("paid_at");
             })
             ->allowedFilters([
                 AllowedFilter::partial("search", "name"),
-            ])
-            ->orderBy($sortBy, $direction)
+            ]);
+
+        if ($user->role === Role::User->value) {
+            $query = $query->where("user_id", $user->id);
+        }
+        
+        $data = $query->orderBy($sortBy, $direction)
             ->paginate(
                 perPage: $perPage,
                 page: $page,

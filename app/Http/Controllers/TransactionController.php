@@ -28,6 +28,7 @@ class TransactionController extends Controller
         $query = QueryBuilder::for(Transaction::class)
             ->whereNull("paid_at")
             ->with("transactionProducts");
+        
         if ($user->role === Role::User->value) {
             $query = $query->where("user_id", $user->id);
         }
