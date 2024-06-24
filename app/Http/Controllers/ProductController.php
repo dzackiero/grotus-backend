@@ -11,6 +11,7 @@ use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Models\ProductMedia;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -30,6 +31,11 @@ class ProductController extends Controller
         $data = QueryBuilder::for(Product::class)->with(["medias"])
             ->allowedFilters([
                 AllowedFilter::partial("search", "name"),
+                AllowedFilter::callback("nutrition", function (Builder $query, $name) {
+                    $query->whereHas("nutritionTypes", function (Builder $query) use ($name) {
+                        $query->where(\DB::raw('LOWER(name)'), "LIKE", '%' . strtolower($name) . '%');
+                    });
+                }),
             ])
             ->orderBy($sortBy, $direction)
             ->paginate(
