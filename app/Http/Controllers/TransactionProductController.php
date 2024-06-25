@@ -32,9 +32,11 @@ class TransactionProductController extends Controller
             ]);
 
         if ($user->role === Role::User->value) {
-            $query = $query->where("user_id", $user->id);
+            $query = $query->whereHas("transaction", function (Builder $query) use ($user) {
+                $query->where("user_id", $user->id);
+            });
         }
-        
+
         $data = $query->orderBy($sortBy, $direction)
             ->paginate(
                 perPage: $perPage,
