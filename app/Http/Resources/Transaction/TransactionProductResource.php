@@ -18,10 +18,14 @@ class TransactionProductResource extends JsonResource
         return [
             "id" => $this->id,
             "product_id" => $this->product_id,
+            "transaction_id" => $this->transaction_id,
             "name" => $this->name,
             "price" => $this->price,
             "amount" => $this->amount,
             "rating" => $this->rating,
+            "status" => $this->whenLoaded("transaction", function () {
+                return $this->transaction->status;
+            }),
             "nutrition_types" => $this->product?->nutritionTypes?->map(fn($nutrition) => [
                     "id" => $nutrition->id,
                     "name" => $nutrition->name
