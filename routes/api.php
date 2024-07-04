@@ -73,7 +73,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::group(["prefix" => "nutrition-types"], function () {
         Route::post("/", [\App\Http\Controllers\NutritionTypeController::class, "store"]);
         Route::get("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "show"]);
-        Route::put("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "update"]);
+        Route::patch("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "update"]);
         Route::delete("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "delete"]);
     });
 
