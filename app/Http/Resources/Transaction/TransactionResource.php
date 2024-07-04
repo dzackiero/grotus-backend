@@ -21,6 +21,8 @@ class TransactionResource extends JsonResource
             "address" => $this->address,
             "phone" => $this->phone,
             "payment_method" => $this->payment_method,
+            "delivery_method" => $this->delivery_method,
+            "status" => $this->status,
             "products" => $this->whenLoaded("transactionProducts", function () {
                 return TransactionProductResource::collection($this->transactionProducts);
             }),

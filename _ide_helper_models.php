@@ -17,13 +17,39 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Product> $products
+ * @property-read int|null $products_count
+ * @method static \Database\Factories\NutritionTypeFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|NutritionType whereUpdatedAt($value)
+ */
+	class NutritionType extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $name
  * @property float $price
  * @property int $stock
  * @property string $description
+ * @property string $type
+ * @property string|null $metadata
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductMedia> $medias
  * @property-read int|null $medias_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NutritionType> $nutritionTypes
+ * @property-read int|null $nutrition_types_count
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
@@ -31,9 +57,11 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereMetadata($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStock($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
 	class Product extends \Eloquent implements \App\Interfaces\HasImage {}
@@ -70,7 +98,7 @@ namespace App\Models{
  * @property int $user_id
  * @property int $product_id
  * @property float $rating min: 0; max: 5
- * @property string $description
+ * @property string|null $description
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Product|null $product
@@ -101,6 +129,8 @@ namespace App\Models{
  * @property string $address
  * @property string $phone
  * @property string|null $payment_method
+ * @property string|null $delivery_method
+ * @property string $status
  * @property string|null $paid_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -113,11 +143,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDeliveryMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePaidAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePaymentMethod($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUserId($value)
  */
@@ -132,10 +164,13 @@ namespace App\Models{
  * @property int $transaction_id
  * @property int $product_id
  * @property int|null $rating_id
- * @property int $amount
+ * @property string $name
  * @property float $price
+ * @property int $amount
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductMedia> $medias
+ * @property-read int|null $medias_count
  * @property-read \App\Models\ProductRating|null $rating
  * @property-read \App\Models\Transaction $transaction
  * @method static \Database\Factories\TransactionProductFactory factory($count = null, $state = [])
@@ -145,6 +180,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereAmount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereProductId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|TransactionProduct whereRatingId($value)

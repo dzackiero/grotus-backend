@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->string("address");
             $table->string("phone");
             $table->enum("payment_method", enumValues(\App\Enums\PaymentMethod::cases()))->nullable();
+            $table->enum("delivery_method", enumValues(\App\Enums\DeliveryMethod::cases()))->nullable();
+            $table->enum("status", enumValues(\App\Enums\TransactionStatus::cases()))->default(\App\Enums\TransactionStatus::WAITING_PAYMENT);
             $table->dateTime("paid_at")->nullable();
             $table->timestamps();
         });

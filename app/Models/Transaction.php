@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Enums\TransactionStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Transaction extends Model
 {
@@ -29,11 +31,11 @@ class Transaction extends Model
 
     /**
      * @param User $user
-     * @param array{address: string, phone: string, payment_method: string} $transactionData
+     * @param Collection{address: string, phone: string, payment_method: string} $transactionData
      * @return Transaction
      * @throws \Exception
      */
-    public static function createTransaction(User $user, array $transactionData): Transaction
+    public static function createTransaction(User $user, Collection $transactionData): Transaction
     {
         if ($user->cartItems()->doesntExist()) {
             throw new \Exception("No Item on this user cart", 422);
@@ -43,9 +45,11 @@ class Transaction extends Model
         $transaction = Transaction::create([
             "user_id" => $user->id,
             "name" => $profile->name,
-            "address" => $transactionData["address"] ?? "",
-            "phone" => $transactionData["phone"] ?? "",
-            "payment_method" => $transactionData["payment_method"] ?? "",
+            "address" => $transactionData->get("address"),
+            "phone" => $transactionData->get("phone"),
+            "payment_method" => $transactionData->get("payment_method"),
+            "delivery_method" => $transactionData->get("delivery_method"),
+            "status" => TransactionStatus::WAITING_PAYMENT
         ]);
 
         $cartItems = $user->cartItems;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Role;
+use App\Enums\TransactionStatus;
 use App\Http\Requests\Transaction\PaymentTransactionRequest;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Resources\Transaction\TransactionResource;
@@ -28,7 +29,7 @@ class TransactionController extends Controller
         $query = QueryBuilder::for(Transaction::class)
             ->whereNull("paid_at")
             ->with("transactionProducts");
-        
+
         if ($user->role === Role::User->value) {
             $query = $query->where("user_id", $user->id);
         }
@@ -49,7 +50,7 @@ class TransactionController extends Controller
     public function store(StoreTransactionRequest $request): \Illuminate\Http\JsonResponse
     {
         $user = auth()->user();
-        $data = $request->validated();
+        $data = $request->collect();
 
         $transaction = Transaction::createTransaction($user, $data);
         $transaction = $transaction->with("transactionProducts")->find($transaction->id);
@@ -73,9 +74,21 @@ class TransactionController extends Controller
      */
     public function payment(PaymentTransactionRequest $request, Transaction $transaction): \Illuminate\Http\JsonResponse
     {
-        $transaction->update(["paid_at" => now()]);
+        $transaction->update([
+            "paid_at" => now(),
+            "status" => TransactionStatus::SHIPPED
+        ]);
         $data = new TransactionResource($transaction->refresh());
 
+        return $this->successResponse($data);
+    }
+
+    public function complete(Transaction $transaction): \Illuminate\Http\JsonResponse
+    {
+        $transaction->update([
+            "status" => TransactionStatus::COMPLETED
+        ]);
+        $data = new TransactionResource($transaction->refresh());
         return $this->successResponse($data);
     }
 

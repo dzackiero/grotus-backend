@@ -20,11 +20,11 @@ class TransactionSeeder extends Seeder
                 continue;
             }
 
-            Transaction::createTransaction($user, [
+            Transaction::createTransaction($user, collect([
                 "address" => fake()->address,
                 "phone" => "08123456789",
-                "payment_method" => PaymentMethod::BRI->value,
-            ]);
+                "payment_method" => PaymentMethod::BRI,
+            ]));
         }
     }
 }

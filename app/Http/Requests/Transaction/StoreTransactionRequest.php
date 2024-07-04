@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Transaction;
 
+use App\Enums\DeliveryMethod;
 use App\Enums\PaymentMethod;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,6 +28,7 @@ class StoreTransactionRequest extends FormRequest
             "address" => ["required", "string"],
             "phone" => ["required", "string"],
             "payment_method" => ["required", Rule::enum(PaymentMethod::class)],
+            "delivery_method" => ["nullable", Rule::enum(DeliveryMethod::class)],
         ];
     }
 }
