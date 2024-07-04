@@ -17,6 +17,10 @@ Route::group(["prefix" => "products"], function () {
     Route::get("/{product}", [\App\Http\Controllers\ProductController::class, "show"]);
 });
 
+Route::group(["prefix" => "nutrition-types"], function () {
+    Route::get("/", [\App\Http\Controllers\NutritionTypeController::class, "index"]);
+});
+
 Route::group(['middleware' => 'auth:api'], function () {
     Route::group(['prefix' => 'auth'], function () {
         Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout']);
@@ -65,4 +69,12 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get("/{transactionProduct}", [\App\Http\Controllers\TransactionProductController::class, "show"]);
         Route::put("/{transactionProduct}", [\App\Http\Controllers\TransactionProductController::class, "rate"]);
     });
+
+    Route::group(["prefix" => "nutrition-types"], function () {
+        Route::post("/", [\App\Http\Controllers\NutritionTypeController::class, "store"]);
+        Route::get("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "show"]);
+        Route::put("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "update"]);
+        Route::delete("/{transactionProduct}", [\App\Http\Controllers\NutritionTypeController::class, "delete"]);
+    });
+
 });
