@@ -35,10 +35,7 @@ class  ProductDetailResource extends JsonResource
                         "image" => asset($media->path),
                     ]);
                 }
-                return [
-                    "id" => null,
-                    "image" => "https://picsum.photos/200",
-                ];
+                return null;
             }
             ),
 

@@ -26,7 +26,7 @@ class ProductResource extends JsonResource
                 if ($media = $this->medias()->first()) {
                     return asset($media->path);
                 }
-                return "https://picsum.photos/200";
+                return null;
             }
             ),
             "nutrition_types" => $this->nutritionTypes?->map(fn($nutrition) => ["id" => $nutrition->id, "name" => $nutrition->name]) ?? [],

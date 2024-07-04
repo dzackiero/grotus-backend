@@ -25,7 +25,7 @@ class UserResource extends JsonResource
                 "address" => $this->profile->address,
                 "birth_date" => $this->profile->birth_date,
                 "preferred_payment" => $this->profile->preferred_payment,
-                "profile_photo" => $this->profile->profile_photo ? asset($this->profile->profile_photo) : "https://picsum.photos/200",
+                "profile_photo" => asset($this->profile->profile_photo),
             ]),
 
             "created_at" => $this->created_at,
