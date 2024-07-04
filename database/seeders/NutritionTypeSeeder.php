@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\NutritionType;
 use Illuminate\Database\Seeder;
 
 class NutritionTypeSeeder extends Seeder
@@ -12,25 +11,25 @@ class NutritionTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        $nutritionTypes = [
-            'Nitrate Nitrogen',
-            'Calcium',
-            'Nitrogen',
-            'Magnesium',
-            'Argon',
-            'Urea Nitrogen',
-            'Sulfur',
-            'Ammonium',
-            'Phosphorus',
-            'Potassium',
-            'Boron',
-            'Chloride'
-        ];
-
-        foreach ($nutritionTypes as $type) {
-            NutritionType::create([
-                "name" => $type,
-            ]);
-        }
+//        $nutritionTypes = [
+//            'Nitrate Nitrogen',
+//            'Calcium',
+//            'Nitrogen',
+//            'Magnesium',
+//            'Argon',
+//            'Urea Nitrogen',
+//            'Sulfur',
+//            'Ammonium',
+//            'Phosphorus',
+//            'Potassium',
+//            'Boron',
+//            'Chloride'
+//        ];
+//
+//        foreach ($nutritionTypes as $type) {
+//            NutritionType::create([
+//                "name" => $type,
+//            ]);
+//        }
     }
 }
