@@ -15,6 +15,7 @@ abstract class Controller
     public function errorResponse(string $message = "Error occurred", $error = null, int $code = 500): \Illuminate\Http\JsonResponse
     {
         return response()->json([
+            "code" => $code,
             "message" => $message,
             "error" => $error
         ], $code);

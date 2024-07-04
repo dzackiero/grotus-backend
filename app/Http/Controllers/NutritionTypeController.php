@@ -48,7 +48,12 @@ class NutritionTypeController extends Controller
 
     public function delete(NutritionType $nutritionType): \Illuminate\Http\JsonResponse
     {
-        $nutritionType->deleteOrFail();
+        $isProductExist = $nutritionType->products()->exists();
+        if ($isProductExist) {
+            return $this->errorResponse("Nutrition Type cannot be deleted because it's used by product(s)", code: 422);
+        }
+
+        $nutritionType->delete();
         return $this->successResponse();
     }
 }
