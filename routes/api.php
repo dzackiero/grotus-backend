@@ -61,6 +61,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post("/", [\App\Http\Controllers\TransactionController::class, "store"]);
         Route::get("/{transaction}", [\App\Http\Controllers\TransactionController::class, "show"]);
         Route::put("/{transaction}/pay", [\App\Http\Controllers\TransactionController::class, "payment"]);
+        Route::put("/{transaction}/complete", [\App\Http\Controllers\TransactionController::class, "complete"]);
         Route::delete("/{transaction}", [\App\Http\Controllers\TransactionController::class, "destroy"]);
     });
 
