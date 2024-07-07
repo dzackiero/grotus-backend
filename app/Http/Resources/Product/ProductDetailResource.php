@@ -18,7 +18,7 @@ class  ProductDetailResource extends JsonResource
     public function toArray(Request $request): array
     {
         $user = User::find(auth()->user()?->id);
-        $isSaved = $user && $user->savedProduct()->where("product_id", $this->id)->exists();
+        $saved = $user?->savedProduct()->where("product_id", $this->id)->first();
         $ratings = $this->ratings;
 
         return [
@@ -27,7 +27,7 @@ class  ProductDetailResource extends JsonResource
             "price" => $this->price,
             "stock" => $this->stock,
             "description" => $this->description,
-            "saved" => $isSaved,
+            "saved" => $saved?->id,
             "metadata" => $this->metadata,
             "nutrition_types" => $this->nutritionTypes?->map(fn($nutrition) => ["id" => $nutrition->id, "name" => $nutrition->name]) ?? [],
             "photos" => $this->whenLoaded("medias", function () {
