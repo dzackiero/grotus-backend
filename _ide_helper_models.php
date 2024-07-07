@@ -50,6 +50,8 @@ namespace App\Models{
  * @property-read int|null $medias_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\NutritionType> $nutritionTypes
  * @property-read int|null $nutrition_types_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ProductRating> $ratings
+ * @property-read int|null $ratings_count
  * @method static \Database\Factories\ProductFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()

@@ -27,6 +27,11 @@ class Product extends Model implements HasImage
         return $this->belongsToMany(NutritionType::class);
     }
 
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
     /* STUBS */
 
     public function getImageSize(): array
