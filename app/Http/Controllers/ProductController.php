@@ -42,7 +42,7 @@ class ProductController extends Controller
                 }),
             ])
             ->orderBy($sortBy, $direction)
-            ->groupBy("products.id")
+            ->groupBy(["products.id", "name", "price", "stock", "products.description", "metadata"])
             ->paginate(
                 perPage: $perPage,
                 page: $page,
