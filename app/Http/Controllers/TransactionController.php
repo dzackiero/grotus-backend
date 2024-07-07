@@ -30,7 +30,6 @@ class TransactionController extends Controller
             ->allowedFilters([
                 "status"
             ])
-            ->whereNull("paid_at")
             ->with("transactionProducts");
 
         if ($user->role === Role::User->value) {
