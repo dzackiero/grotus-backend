@@ -27,6 +27,9 @@ class TransactionController extends Controller
         $direction = $request->query("direction", "asc");
 
         $query = QueryBuilder::for(Transaction::class)
+            ->allowedFilters([
+                "status"
+            ])
             ->whereNull("paid_at")
             ->with("transactionProducts");
 
