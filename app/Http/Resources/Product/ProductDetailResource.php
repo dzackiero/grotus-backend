@@ -19,6 +19,8 @@ class  ProductDetailResource extends JsonResource
     {
         $user = User::find(auth()->user()?->id);
         $isSaved = $user && $user->savedProduct()->where("product_id", $this->id)->exists();
+        $ratings = $this->ratings;
+
         return [
             "id" => $this->id,
             "name" => $this->name,
@@ -37,8 +39,10 @@ class  ProductDetailResource extends JsonResource
                 }
                 return null;
             }
-            ),
 
+            ),
+            "ratings_average" => $ratings->avg("rating") ?? 0,
+            "ratings_count" => $ratings->count(),
             "created_at" => $this->created_at,
             "updated_at" => $this->updated_at,
         ];

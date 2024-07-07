@@ -26,9 +26,13 @@ class ProductController extends Controller
         $page = $request->query("page", 1);
         $perPage = $request->query("perPage", 10);
         $sortBy = $request->query("sortBy", "created_at");
-        $direction = $request->query("direction", "asc");
+        $direction = $request->query("direction", "desc");
 
-        $data = QueryBuilder::for(Product::class)->with(["medias"])
+        $data = QueryBuilder::for(Product::class)->with(["medias", "ratings"])
+            ->selectRaw("products.id, name, price, stock, products.description, metadata,
+            AVG(rating) AS ratings_average, COUNT(rating) as ratings_count,
+            products.created_at, products.updated_at")
+            ->leftJoin("product_ratings", "products.id", "=", "product_ratings.product_id")
             ->allowedFilters([
                 AllowedFilter::partial("search", "name"),
                 AllowedFilter::callback("nutrition", function (Builder $query, $name) {
@@ -38,6 +42,7 @@ class ProductController extends Controller
                 }),
             ])
             ->orderBy($sortBy, $direction)
+            ->groupBy("products.id")
             ->paginate(
                 perPage: $perPage,
                 page: $page,
@@ -65,7 +70,7 @@ class ProductController extends Controller
      */
     public function show(Product $product): \Illuminate\Http\JsonResponse
     {
-        $product = $product->with(["medias"])->find($product->id);
+        $product = $product->with(["medias", "ratings"])->find($product->id);
         $data = new ProductDetailResource($product);
 
         return $this->successResponse($data);
