@@ -72,19 +72,19 @@ class Product extends Model implements HasImage
     }
 
     public function updateProduct(
-        iterable $productData,
-        ?array   $images = null,
-        ?array   $nutritionTypes = null
+        array  $productData,
+        ?array $images = null,
+        ?array $nutritionTypes = null
     ): Product
     {
-        $product = Product::create($productData);
-        $product->nutritionTypes()->sync($nutritionTypes);
+        $this->update($productData);
+        $this->nutritionTypes()->sync($nutritionTypes);
 
         if ($images) {
-            $product->uploadMedia($images);
+            $this->uploadMedia($images);
         }
 
-        return $product;
+        return $this->refresh();
     }
 
     public function uploadMedia(array $images): void
