@@ -197,7 +197,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Provit Orange',
-                'image' => 'proit-orange.jpeg',
+                'image' => 'provit-orange.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Water-soluble NPK 8-9-39+3MgO+TE complete compound fertilizer specially formulated for agriculture with high potassium (K) content.',
