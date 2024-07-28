@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Transaction;
 
+use App\Models\ProductMedia;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -15,6 +16,7 @@ class TransactionProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $media = ProductMedia::where("product_id", $this->product_id)->first();
         return [
             "id" => $this->id,
             "product_id" => $this->product_id,
@@ -30,13 +32,7 @@ class TransactionProductResource extends JsonResource
                     "id" => $nutrition->id,
                     "name" => $nutrition->name
                 ]) ?? [],
-            "photo" => $this->whenLoaded("medias", function () {
-                if ($media = $this->medias()->first()) {
-                    return asset($media->path);
-                }
-                return null;
-            }
-            ),
+            "photo" => $media ? asset($media->path) : null,
         ];
     }
 }
