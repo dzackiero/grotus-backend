@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\NutritionType;
 use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Image;
 
 class ProductSeeder extends Seeder
 {
@@ -16,6 +17,7 @@ class ProductSeeder extends Seeder
         $products = [
             [
                 'name' => 'CN-G',
+                'image' => 'cn-g.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'It is a fertilizer that can increase nitrogen nutrition in various types of plants',
@@ -25,6 +27,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'CSN',
+                'image' => 'csn.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Single macro fertilizer contains Nitrogen in the form of Nitrate which is easily soluble and easily absorbed by plants.',
@@ -34,6 +37,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Magnit',
+                'image' => 'magnit.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer containing magnersium and nitrogen in prill form',
@@ -43,6 +47,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'ZNURECOTE',
+                'image' => 'znurecote.png',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Contains Urea Argon to reduce dosage and increase nitrogen nutrition',
@@ -52,6 +57,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'ZA Pak Tani',
+                'image' => 'za-pak-tani.png',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Macro fertilizer containing the nutrients Nitrogen and Sulfur',
@@ -61,6 +67,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'KS Pak Tani',
+                'image' => 'ks-pak-tani.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with a fairly high calcium and nitrogen content in the form of nitrate',
@@ -70,6 +77,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'KS Plus',
+                'image' => 'ks-plus.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with high nitrogen content and ammonium with good composition',
@@ -79,6 +87,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'SSP-18',
+                'image' => 'ssp-18.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer containing the main nutrient phosphorus in the form of p205 is granular',
@@ -88,6 +97,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'SP-18',
+                'image' => 'sp-18.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with a phosphorus content of 18% in the form of p205, and in granular form',
@@ -97,6 +107,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'SP-27',
+                'image' => 'sp-27.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with a phosphorus content of 27% in the form of p205',
@@ -106,6 +117,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'TSP-36',
+                'image' => 'tsp-36.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with a phosphorus content of 36% in granular form',
@@ -115,6 +127,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MerokeTSP',
+                'image' => 'meroketsp.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with 46% phosphorus content in granular form',
@@ -124,6 +137,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Agrophos',
+                'image' => 'agrophos.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer with a phosphorus content of 46% in liquid form that is easy to apply',
@@ -133,6 +147,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Fertiphos',
+                'image' => 'fertiphos.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Compound fertilizer containing phosphorus, sulfur and boron',
@@ -142,6 +157,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MKP',
+                'image' => 'mkp.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Compound fertilizer with 52% phosphorus and 32% potassium',
@@ -151,6 +167,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'SuburKali',
+                'image' => 'suburkali.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'This fertilizer is a compound fertilizer with a balanced content of three nutrient elements',
@@ -160,6 +177,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MerokeKKB',
+                'image' => 'merokeKKB.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'MerokeKKB contains the nutrients Potassium, Magnesium, Sulfur and Boron. Composition: 40.0 % K20 (Potassium Oxide) 6.0 % MgO (Magnesium Oxide) 4.0 % S (Sulfur) 0.8 % B203 (Boron Oxide).',
@@ -169,6 +187,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MerokeMOP',
+                'image' => 'merokeMOP.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'MerokeMOP Fertilizer is a single KCI fertilizer containing 60% Potassium (K20), in the form of fine crystals',
@@ -178,6 +197,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'Provit Orange',
+                'image' => 'proit-orange.jpeg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Water-soluble NPK 8-9-39+3MgO+TE complete compound fertilizer specially formulated for agriculture with high potassium (K) content.',
@@ -187,6 +207,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MerokeKALINITRA',
+                'image' => 'merokeKALINITRA.jpg',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'Fertilizer in crystal form, pure white with water soluble Nitrogen (N) and Potassium (K), is a suitable choice for a wide range of horticultural crops',
@@ -196,6 +217,7 @@ class ProductSeeder extends Seeder
             ],
             [
                 'name' => 'MerokeSOP',
+                'image' => 'merokesop.png',
                 'price' => fake()->numberBetween(10_000, 200_000),
                 'stock' => fake()->numberBetween(0, 50),
                 'description' => 'MerokeSOP contains ideal levels of Potassium (K) for plants sensitive to Chloride (CI). Contains 52% Potassium Oxide (K2O), and 18% Sulfur (S).',
@@ -214,6 +236,8 @@ class ProductSeeder extends Seeder
                 'type' => $product['type'],
                 'metadata' => $product['metadata'],
             ]);
+
+            $createdProduct->uploadImageFromPath("images/" . $product["image"], "product", str($createdProduct->name)->slug("_"));
 
             // Attach nutrition types
             foreach ($product['nutrition_types'] as $nutritionType) {
